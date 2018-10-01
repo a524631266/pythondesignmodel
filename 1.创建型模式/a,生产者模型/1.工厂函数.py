@@ -62,7 +62,7 @@ class XmlConnector(Connector):
     def print(self):
         pass
 
-## 工厂方法统一管理数据库链接
+## 在工厂函数上嵌套一个异常处理的模块,统一管理
 def errorcatch(func):
     def warper(filepath):
         try:
@@ -71,7 +71,7 @@ def errorcatch(func):
             print(ve)
     return warper
 
-
+## 工厂方法统一管理数据库链接
 @errorcatch
 def connector_factory(filepath):
     if filepath.endswith("json"):
@@ -80,7 +80,7 @@ def connector_factory(filepath):
         connector = XmlConnector
     else:
         raise ValueError('Cannot connect to {}'.format(filepath))
-    return connector(filepath)
+    return connector(filepath) # 创建单一的对象,这个是工厂函数最基本的要求
 
 if __name__ == '__main__':
     #######不同对象
