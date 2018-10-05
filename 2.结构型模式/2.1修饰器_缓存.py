@@ -50,5 +50,8 @@ def main():
     t1 = Timer("sumbefore(7)",globals=globals()) 
     print(t1.timeit(number=1000000)) # 1.4 s 每次循环
 
+
+## 当然,你可以使用尾递归来处理普通递归的在堆栈上的性能问题
+# 尾递归的核心概念是在函数上使用上一层的结果作为下一层结果的相关输入用来存储中间变量
 if __name__ == '__main__':
     main()
