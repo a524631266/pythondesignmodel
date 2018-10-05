@@ -10,21 +10,33 @@ from timeit import Timer
 # 2. 求和序列,这个通过递归循环,同时也需要用到递归自己,但是耗内存,生成中间没用的变量 return 值
 
 
+# 通过在middlestore上再嵌套一层用来控制是否使用缓存
+def usewarp(middfunc):
+    usewarp = False    
+    def warpper(func):
+        if usewarp:
+            return middfunc(func)
+        else:
+            return func
+    return warpper
 # 通过缓存来保持返回的结果
 # 要点是需要返回缓存的结果,同时不再对缓存结果进行赋值,确保数据不再叠加运算
 
+
+@usewarp
 def middlestore(func):
     result = {} # 第一次调用的时候产生
-    usewarp  = True # 在 装饰器上加一层 是否使用warpper的变量
-    if usewarp:
-        def warpper(*args):
-            # print(result)
-            if args not in result:
-                result[args] = func(*args)
-            return result[args]
-        return warpper
-    else:
-        return func
+    # usewarp  = True # 在 装饰器上加一层 是否使用warpper的变量
+    # if usewarp:
+    def warpper(*args):
+        print(result)
+        if args not in result:
+            result[args] = func(*args)
+        return result[args]
+    return warpper
+    # else:
+    #     return func
+
 @middlestore
 def fbnaci(n):
     """
@@ -48,6 +60,7 @@ def main():
     # 方法一 导入fbnaci包
     # t = Timer("fbnaci(7)","from __main__ import fbnaci")
     # 方法二 导入全部变量,包含fbnaci
+    print(fbnaci(7))
     t = Timer("fbnaci(7)",globals=globals())
     print(t.timeit(number=1000000)) # 7.5 s 每次循环
     t1 = Timer("sumbefore(7)",globals=globals()) 
