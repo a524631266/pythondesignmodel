@@ -43,7 +43,7 @@ class Computer:
         self.memory = "12G"
     def __str__(self):
         return "name:{},cpu:{},memory:{}".format(self.computername,self.cpu,self.memory)
-###２．创建一个可以制作者
+###２．创建一个可以制作者 这里默认　cpu比memory先安装  有先后顺序
 class ComputerBuilder:
     def __init__(self,name):
         self.computer = Computer(name)
@@ -58,8 +58,9 @@ class HardwareEnginer:
         self.builder = None
     def construct_compouter(self,computername,cpu,memory):
         self.builder = ComputerBuilder(computername)
-        self.builder.confi_cpu(cpu)
-        self.builder.confi_memory(memory)
+        # self.builder.confi_cpu(cpu)
+        # self.builder.confi_memory(memory)
+        [step for step in (self.builder.confi_cpu(cpu),self.builder.confi_memory(memory))]
     @property
     def computer(self):
         return self.builder.computer
