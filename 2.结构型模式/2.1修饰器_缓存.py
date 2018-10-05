@@ -11,19 +11,21 @@ from timeit import Timer
 
 
 # 通过在middlestore上再嵌套一层用来控制是否使用缓存
-def usewarp(middfunc):
-    usewarp = False    
-    def warpper(func):
-        if usewarp:
-            return middfunc(func)
-        else:
-            return func
-    return warpper
+def openwarp(usewarp=False):
+    def warpping(middfunc):
+        # usewarp = False    
+        def warpper(func):
+            if usewarp:
+                return middfunc(func)
+            else:
+                return func
+        return warpper
+    return warpping
 # 通过缓存来保持返回的结果
 # 要点是需要返回缓存的结果,同时不再对缓存结果进行赋值,确保数据不再叠加运算
 
 
-@usewarp
+@openwarp(True)
 def middlestore(func):
     result = {} # 第一次调用的时候产生
     # usewarp  = True # 在 装饰器上加一层 是否使用warpper的变量
