@@ -31,7 +31,7 @@ def middlestore(func):
     # usewarp  = True # 在 装饰器上加一层 是否使用warpper的变量
     # if usewarp:
     def warpper(*args):
-        print(result)
+        # print(result)
         if args not in result:
             result[args] = func(*args)
         return result[args]
