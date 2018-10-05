@@ -15,13 +15,16 @@ from timeit import Timer
 
 def middlestore(func):
     result = {} # 第一次调用的时候产生
-    def warpper(*args):
-        # print(result)
-        if args not in result:
-            result[args] = func(*args)
-        return result[args]
-    return warpper
-
+    usewarp  = True # 在 装饰器上加一层 是否使用warpper的变量
+    if usewarp:
+        def warpper(*args):
+            # print(result)
+            if args not in result:
+                result[args] = func(*args)
+            return result[args]
+        return warpper
+    else:
+        return func
 @middlestore
 def fbnaci(n):
     """
