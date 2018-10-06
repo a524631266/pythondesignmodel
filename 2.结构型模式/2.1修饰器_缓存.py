@@ -1,4 +1,5 @@
 from timeit import Timer
+import functools
 #  timeit 官网　https://docs.python.org/3/library/timeit.html
 # timeit 默认模式为10000次
 
@@ -13,7 +14,8 @@ from timeit import Timer
 # 通过在middlestore上再嵌套一层用来控制是否使用缓存
 def openwarp(usewarp=False):
     def warpping(middfunc):
-        # usewarp = False    
+        # usewarp = False
+        # print("11111111111")    
         def warpper(func):
             if usewarp:
                 return middfunc(func)
@@ -29,15 +31,24 @@ def openwarp(usewarp=False):
 def middlestore(func):
     result = {} # 第一次调用的时候产生
     # usewarp  = True # 在 装饰器上加一层 是否使用warpper的变量
-    # if usewarp:
+    # fbnaci.__doc__ fubnaci.__name__ 重新返回原来的元素,因此需要包装一层
+    # ('__module__', '__name__', '__qualname__', '__doc__','__annotations__')
+    # 官方 https://docs.python.org/3.3/library/functools.html
+    @functools.wraps(func)
     def warpper(*args):
+        """
+            该函数用来生成中间缓存2
+        """
         # print(result)
+        # print("func",func)
         if args not in result:
             result[args] = func(*args)
         return result[args]
     return warpper
     # else:
     #     return func
+
+
 
 @middlestore
 def fbnaci(n):
@@ -62,7 +73,8 @@ def main():
     # 方法一 导入fbnaci包
     # t = Timer("fbnaci(7)","from __main__ import fbnaci")
     # 方法二 导入全部变量,包含fbnaci
-    print(fbnaci(7))
+    print("name,",fbnaci.__name__)
+    print("name,",fbnaci.__doc__)
     t = Timer("fbnaci(7)",globals=globals())
     print(t.timeit(number=1000000)) # 7.5 s 每次循环
     t1 = Timer("sumbefore(7)",globals=globals()) 
