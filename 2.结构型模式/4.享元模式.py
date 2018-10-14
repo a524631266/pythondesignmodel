@@ -47,8 +47,41 @@ def main():
 
 Skin = Enum("Skin","yellow white black")
 
+
+sex_type = Enum("sex_type","female male")
 class FPSoldier:
     # variable height weight 
-    
+    instancespool = {}
+    def __new__(cls,sex_type,**keywards):
+        obj = cls.instancespool.get(sex_type)
+        if not obj:
+            obj = object.__new__(cls)
+            cls.instancespool[sex_type] = obj
+        return obj
+    def __init__(self,sex_type):
+        self.type = sex_type
+
+    def set_age(self,age:int):
+        self.age = age
+    def set_skincolor(self,color:str):
+        self.skincolor = color
+    def __str__(self):
+        return "installnum:{},sex {},this instance age{} has a {} of skin".format(len(FPSoldier.instancespool),self.type,self.age,self.skincolor)
+
+import random
+
+def main2():
+    female = sex_type.female
+    male = sex_type.male
+    pool = [female,male]
+    colorpool = ["yellow","red","blue","white","black"]
+    for i in range(10):
+        da = FPSoldier(random.choice(pool))
+        da.set_age(random.randrange(0,100))
+        da.set_skincolor(random.choice(colorpool))
+        print(da)
+    print(FPSoldier.instancespool[male])# 最后一个male实例的,
+    print(FPSoldier.instancespool[female]) #最后一个female实例
+
 if __name__ == '__main__':
-    main()
+    main2()

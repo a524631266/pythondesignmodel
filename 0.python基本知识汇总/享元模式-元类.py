@@ -5,8 +5,9 @@ def add(a,b):
 add2 = type("add2",(),{"name":"zhanglll"})
 
 def main():
-    print(add.__class__.__class__) # <class 'type'>
+    # print(add.__class__.__class__) # <class 'type'>
     print(add2().name)
     print(add2.name)
+    print("111")
 if __name__ == '__main__':
     main()
