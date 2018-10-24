@@ -1,5 +1,8 @@
-
-arr = [2,3,5,6,2,3,5,6,1,5,6,2,2,2]
+import random
+initarr = list(range(1,10))
+arr = []
+for i in range(20):
+    arr.append(random.choice(initarr))
 arr1 = sorted(arr) #升序数据
 arr2 = list(set(arr1)) #剔除重复升序数据
 def ifconitueincrease(arr):# 判断是否连续增加
@@ -28,8 +31,8 @@ def check(arr,count,oncelen): # 对升序不剔除数据进行判断是否重复
     else:
         check(arr,count+1,3)
 check(arr1,0,3)
-print("arr1",arr1)
-print("arr2",arr2)
+print("arr1:\n",arr1)
+print("arr2:\n",arr2)
 check(arr2,0,3)
-print(result)
+print("result\n",result)
 
