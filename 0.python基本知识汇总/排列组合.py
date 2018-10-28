@@ -13,6 +13,7 @@ def myownCombination(arr,i):
             print(ii,jj)
 
 
+
 # ######### 版本1 ##########
 # for i in range(1,count+1):
 #     for y in itertools.combinations(arr,i):
