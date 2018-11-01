@@ -1,3 +1,5 @@
+# Python进阶开发之元类编程 开发 orm http://www.cnblogs.com/wongbingming/p/8973859.html
+
 class addclass:
     # names = ["aaa"]
     def __init__(self,name):
