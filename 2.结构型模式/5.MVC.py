@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # MVC model-view-control
 # 模型 视图 控制
 # 为什么会出现三者？
@@ -41,6 +42,7 @@ class QuoteModel:
 class QuoteView:
     def show(self,quote):
         print("你选择的名言为:{}".format(quote))
+        pygameshowText(quote,500,400)
     def error(self,mesg):
         print("错误信息:{}".format(mesg))
     def select_quote_index(self):
@@ -76,15 +78,45 @@ class QuoteControl2:
         self.view.show(quote)
 
 
+def pygameshowText(text,width,height):
+    """
+        给视图添加一个pygame视图窗口
+    """
+    # 
+    # from pygame.locals import * 
+    import pygame
+    import random
+    pygame.init()
 
-import pygame
-
-from pygame.locals import * 
-# pygame.init()
-DISPLAYSURF = pygame.display.set_mode((500,500)) #长400，宽300
-pygame.display.set_caption('Hello World!')
-
-
+    ZiTi=pygame.font.get_fonts()
+    fontlist = []
+    for i in ZiTi:
+        fontlist.append(i)
+    font = random.choice(fontlist)
+    
+    print("选择的字体是{}".format(font))
+    DISPLAYSURF = pygame.display.set_mode((width,height)) #长400，宽300
+    pygame.display.set_caption('window show word')
+    # BLACK = (0,0,0)
+    # GREEN = (0,255,0)
+    # BLUE = (0,0,128)
+    blue  =  0,0,255
+    white = 255,255,255
+    # 一下为测试过的中文字体支持
+    # arplumingcn arplumingtwmbe arplumingtw（宋体细体） 
+    # notosanscjktc notosanscjkkr 宋体浅体 notosanscjksc 中体 notosanscjkjp（大粗体）
+    # notosansmonocjkjp notosansmonocjksc notosansmonocjkkr（中体）  notosansmonocjktc（中体）
+    # notoserifcjksc（宋体） notoserifcjkkr（宋体大粗体） notoserifcjkjp
+    # droidsansfallback （中体） 
+    # arplukaitwmbe arplukaihk(比较帅气，行楷) arplukaicn
+    # fontObj = pygame.font.Font(my_font,32)
+    my_font = pygame.font.SysFont(font,38)
+    textSurfaceObj = my_font.render(u'{}'.format(text),True,white)
+    textRectObj = textSurfaceObj.get_rect()
+    textRectObj.center=(width/2,height/2)
+    DISPLAYSURF.fill(blue)
+    DISPLAYSURF.blit(textSurfaceObj,textRectObj)
+    pygame.display.update()
 
 def main():
     app = QuoteControl1()
