@@ -93,11 +93,14 @@ class QuoteControl1:
         然而这里的数字验证部分应该不是control做的
     """
     def __init__(self):
-        controlindex = int(input("choose your view index in [0,1]"))
+        controlindex = int(input("choose your view index in 0=>终端　1=>pygame : "))
         self.model = QuoteModel()
         self.view = [TerminalQuoteView(),PygameQuoteView()][controlindex]
 
     def run(self):
+        """
+            控制器只专注于model与view之间的交互
+        """
         valid_input = False
         while not valid_input:# 验证用户输入是否是数字
         # 用户选择的大小
