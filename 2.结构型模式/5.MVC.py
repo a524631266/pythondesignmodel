@@ -21,8 +21,9 @@
 
 # 名人名言打印机
 # 要求　输入一个数字，就能得到一句存储在某个位置的名人名言
+# 同时根据模型进行对 m v c进行分别的扩展
 
-quotes = ('你很帅','你怎么知道我很帅','我就是帅','太帅也是一种罪')
+quotes = ['你很帅','你怎么知道我很帅','我就是帅','太帅也是一种罪']
 class QuoteModel:
     """
         只关注与后台交互的数据交互，获取数据,以及业务逻辑
@@ -32,50 +33,95 @@ class QuoteModel:
             选择大于等于１编号的验证逻辑
         """
         try:
-            if index<1:
+
+            if index == "r":
+                import random 
+                value = random.choice(quotes)
+            elif int(index)<1:
                 value = "请选择大于１的数"
             else:
-                value = quotes[index]
+                value = quotes[int(index)]
         except IndexError as err:
             value = '找不到'
+        except ValueError as err2:
+            value = '请输入数值'
         return value
-class QuoteView:
+    def set_quote(self,quote):
+        """
+            给数据库添加字符串
+        """
+        quotes.append(quote)
+    def update_quote(self,quote,index):
+        """
+            更新数据库
+        """
+        quotes[index] = quote
+    def delete_quote(self,index):
+        """
+            删除指定位置数据
+        """
+        quotes.pop(index) 
+
+class TerminalQuoteView:
+    """
+        专注于命令行的视图
+    """
     def show(self,quote):
-        print("你选择的名言为:{}".format(quote))
+        terminalshowText(quote)
+    def error(self,mesg):
+        print("错误信息:{}".format(mesg))
+    def select_quote_index(self):
+        return input("请选择数据位置大小")
+    def set_quote(self):
+        return input("请选择你要插入的数据")
+
+class PygameQuoteView:
+    """
+        专注于pygame的视图
+    """
+    def show(self,quote):
         pygameshowText(quote,500,400)
     def error(self,mesg):
         print("错误信息:{}".format(mesg))
     def select_quote_index(self):
         return input("请选择数据位置大小")
+    def set_quote(self):
+        return input("请选择你要插入的数据")
+
 class QuoteControl1:
     """
         然而这里的数字验证部分应该不是control做的
     """
     def __init__(self):
+        controlindex = int(input("choose your view index in [0,1]"))
         self.model = QuoteModel()
-        self.view = QuoteView()
+        self.view = [TerminalQuoteView(),PygameQuoteView()][controlindex]
 
     def run(self):
         valid_input = False
         while not valid_input:# 验证用户输入是否是数字
         # 用户选择的大小
-            n = self.view.select_quote_index()
-            try:
-                n = int(n)
-            except ValueError as err:
-                self.view.error("问题id{}".format(n))
+            operation = int(input("请选择你要操作的序号0=>获取数据 1=>添加数据"))
+            if operation == 0:
+                n = self.view.select_quote_index()
+                # 验证模块最好放在module中
+                # try:
+                #     n = int(n)
+                # except ValueError as err:
+                #     self.view.error("问题id{}".format(n))
+                # else:
+                #     valid_input = True
+                quote = self.model.get_quotes(n)
+                self.view.show(quote)
+            elif operation == 1:
+                quote2 = self.view.set_quote()
+                self.model.set_quote(quote2)
             else:
-                valid_input = True
-        quote = self.model.get_quotes(n)
-        self.view.show(quote)
-class QuoteControl2:
-    def __init__(self):
-        self.model = QuoteModel()
-        self.view = QuoteView()
-    def run(self):
-        n = self.view.select_quote_index()
-        quote = self.model.get_quotes(n)
-        self.view.show(quote)
+                print("请选择 0 或 1 ")
+
+
+def terminalshowText(text):
+    print("你选择的名言为:{}".format(text))
 
 
 def pygameshowText(text,width,height):
@@ -109,8 +155,10 @@ def pygameshowText(text,width,height):
     # notoserifcjksc（宋体） notoserifcjkkr（宋体大粗体） notoserifcjkjp
     # droidsansfallback （中体） 
     # arplukaitwmbe arplukaihk(比较帅气，行楷) arplukaicn
+    
+    
     # fontObj = pygame.font.Font(my_font,32)
-    my_font = pygame.font.SysFont(font,38)
+    my_font = pygame.font.SysFont("arplukaitwmbe",38)
     textSurfaceObj = my_font.render(u'{}'.format(text),True,white)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center=(width/2,height/2)
@@ -120,7 +168,6 @@ def pygameshowText(text,width,height):
 
 def main():
     app = QuoteControl1()
-    while True:
-        app.run()
+    app.run()
 if __name__ == '__main__':
     main()
