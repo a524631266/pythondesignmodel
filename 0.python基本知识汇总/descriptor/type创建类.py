@@ -14,6 +14,9 @@ def say(self):
 # 为什么type能用来创建类？因为它本身是一个元类。使用元类创建类，那就合理了
 User = type("User1",(BaseClass,),{"name":"zhangll","say":say})
 # type如果只传一个参数就是检测对象的类型，　实例的类型是类，类的类型都是type
+
+
+
 def main():
     user = User()
     user.say() # asdd zhangll
