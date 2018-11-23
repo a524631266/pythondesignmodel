@@ -23,6 +23,7 @@
 # 4. data descriptors always override instance dictionaries.
 # 5. non-data descriptors may be overridden by instance dictionaries.
 
+# threadlocal thireading.local()使用的场景
 class DataDesc:
     def __init__(self):
         self.value = "Data"
