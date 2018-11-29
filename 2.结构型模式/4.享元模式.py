@@ -21,13 +21,14 @@ class Tree:
             cls.pool[tree_type]= obj
         return obj
     def __init__(self,tree_type):
+        print("tree_type",tree_type)
         self.type = tree_type
     def __str__(self):
         return str(self.type)
     def render(self,age,x,y):
         print('render a tree of type {} and age {} at ({}, {})'.format(self.type,
 age, x, y))
-    
+
 def main():
     for i in range(10):
         tree = Tree(Tree_type.Atree)
@@ -84,4 +85,7 @@ def main2():
     print(FPSoldier.instancespool[female]) #最后一个female实例
 
 if __name__ == '__main__':
-    main2()
+    print(111)
+    # main()
+
+    
