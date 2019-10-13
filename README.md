@@ -1,3 +1,6 @@
+# 查看github 上的jpynb文件
+ https://nbviewer.jupyter.org/github/a524631266/当前网页文件地址
+ 
 # pythondesignmodel
 
     根据python的设计模式书籍做的一系列设计模式练习
