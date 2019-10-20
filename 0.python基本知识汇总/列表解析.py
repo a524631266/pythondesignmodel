@@ -14,7 +14,7 @@ print(next(gen1))
 print(next(gen1))
 
 
-
+# 列表解析* 来代表一个指针，这个指针引用后半部分的数据
 a,*c = [1,2,3,4,5]
 print(c)
 
